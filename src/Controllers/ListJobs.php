@@ -10,13 +10,10 @@ use Submtd\LaravelWebhooks\Resources\WebhookJobCollection;
 
 class ListJobs extends Controller
 {
-    public function __invoke($webhook_uuid, $trigger_uuid)
+    public function __invoke()
     {
-        if (!$trigger = WebhookTrigger::where('user_id', Auth::id())->whereUuid($trigger_uuid)->first()) {
-            abort(404);
-        }
         WebhookJob::addGlobalScope(new RequestScope);
-        $jobs = WebhookJob::where('user_id', Auth::id())->where('webhook_trigger_id', $trigger->id)->jsonPaginate();
+        $jobs = WebhookJob::where('user_id', Auth::id())->paginate();
         return new WebhookJobCollection($jobs);
     }
 }

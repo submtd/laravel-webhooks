@@ -10,7 +10,7 @@ use Submtd\LaravelWebhooks\Resources\WebhookJobResource;
 
 class GetJob extends Controller
 {
-    public function __invoke($webhook_uuid, $trigger_uuid, $job_uuid)
+    public function __invoke($job_uuid)
     {
         WebhookJob::addGlobalScope(new RequestScope);
         if (!$job = WebhookJob::where('user_id', Auth::id())->whereUuid($job_uuid)->first()) {

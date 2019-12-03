@@ -10,7 +10,7 @@ use Submtd\LaravelWebhooks\Resources\WebhookTriggerResource;
 
 class GetTrigger extends Controller
 {
-    public function __invoke($webhook_uuid, $trigger_uuid)
+    public function __invoke($trigger_uuid)
     {
         WebhookTrigger::addGlobalScope(new RequestScope);
         if (!$trigger = WebhookTrigger::where('user_id', Auth::id())->whereUuid($trigger_uuid)->first()) {

@@ -12,12 +12,9 @@ use Submtd\LaravelWebhooks\Rules\TriggerExists;
 
 class UpdateTrigger extends Controller
 {
-    public function __invoke(Request $request, $webhook_uuid, $trigger_uuid)
+    public function __invoke(Request $request, $trigger_uuid)
     {
-        if (!$webhook = Webhook::where('user_id', Auth::id())->whereUuid($webhook_uuid)->first()) {
-            abort(404);
-        }
-        if (!$trigger = WebhookTrigger::where('webhook_id', $webhook->id)->whereUuid($trigger_uuid)->first()) {
+        if (!$trigger = WebhookTrigger::where('user_id', Auth::id())->whereUuid($trigger_uuid)->first()) {
             abort(404);
         }
         $request->validate([
