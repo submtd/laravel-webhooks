@@ -3,6 +3,7 @@
 namespace Submtd\LaravelWebhooks\Services;
 
 use Submtd\LaravelWebhooks\Interfaces\TriggerInterface;
+use Submtd\LaravelWebhooks\Interfaces\Webhookable;
 
 class WebhooksService
 {
@@ -48,9 +49,9 @@ class WebhooksService
     /**
      * trigger
      * @param string $id
-     * @param array $payload
+     * @param Webhookable $payload
      */
-    public function fire(string $id, array $payload = [])
+    public function fire(string $id, Webhookable $payload)
     {
         $trigger = $this->getTrigger($id);
         $trigger->setPayload($payload);
