@@ -21,6 +21,11 @@ class WebhookResource extends JsonResource
                 'updated_at' => $this->updated_at->toIso8601String(),
                 'created_at' => $this->created_at->toIso8601String(),
             ],
+            'related' => [
+                'triggers' => new WebhookTriggerCollection($this->whenLoaded('triggers')),
+                'jobs' => new WebhookJobCollection($this->whenLoaded('jobs')),
+                'results' => new WebhookJobResultCollection($this->whenLoaded('results')),
+            ],
         ];
     }
 }

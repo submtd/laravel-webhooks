@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Submtd\LaravelWebhooks\Models\Webhook;
 use Submtd\LaravelWebhooks\Resources\WebhookResource;
 
-class GetWebhook extends Controller
+class UpdateWebhook extends Controller
 {
-    public function __invoke(Request $request, $uuid)
+    public function __invoke(Request $request, $webhook_uuid)
     {
         $request->validate([
             'title' => 'nullable|max:255',
@@ -18,7 +18,7 @@ class GetWebhook extends Controller
             'active' => 'nullable|boolean',
             'verify_ssl' => 'nullable|boolean',
         ]);
-        if (!$webhook = Webhook::where('user_id', Auth::id)->whereUuid($uuid)->first()) {
+        if (!$webhook = Webhook::where('user_id', Auth::id)->whereUuid($webhook_uuid)->first()) {
             abort(404);
         }
         $webhook->update($request->all());
