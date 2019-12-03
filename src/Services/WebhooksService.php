@@ -2,7 +2,7 @@
 
 namespace Submtd\LaravelWebhooks\Services;
 
-class LaravelWebhooksService
+class WebhooksService
 {
     public function hello()
     {

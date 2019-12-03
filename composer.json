@@ -21,10 +21,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Submtd\\LaravelWebhooks\\Providers\\LaravelWebhooksServiceProvider"
+                "Submtd\\LaravelWebhooks\\Providers\\WebhooksServiceProvider"
             ],
             "aliases": {
-                "LaravelWebhooks": "Submtd\\LaravelWebhooks\\Facades\\LaravelWebhooksFacade"
+                "Webhooks": "Submtd\\LaravelWebhooks\\Facades\\WebhooksFacade"
             }
         }
     }

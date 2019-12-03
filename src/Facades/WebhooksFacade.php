@@ -4,10 +4,10 @@ namespace Submtd\LaravelWebhooks\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class LaravelWebhooksFacade extends Facade
+class WebhooksFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'laravel-webhooks';
+        return 'webhooks';
     }
 }
