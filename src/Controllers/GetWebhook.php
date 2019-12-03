@@ -2,7 +2,7 @@
 
 namespace Submtd\LaravelWebhooks\Controllers;
 
-use DBD\Webhooks\Resources\WebhookResource;
+use Submtd\LaravelWebhooks\Resources\WebhookResource;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Submtd\LaravelRequestScope\Scopes\RequestScope;

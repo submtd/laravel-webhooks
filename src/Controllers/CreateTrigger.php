@@ -2,11 +2,11 @@
 
 namespace Submtd\LaravelWebhooks\Controllers;
 
-use DBD\Webhooks\Resources\TriggerResource;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Submtd\LaravelWebhooks\Models\Webhook;
+use Submtd\LaravelWebhooks\Resources\WebhookTriggerResource;
 use Submtd\LaravelWebhooks\Rules\TriggerExists;
 
 class CreateTrigger extends Controller
@@ -24,6 +24,6 @@ class CreateTrigger extends Controller
         if ($trigger->isDirty()) {
             $trigger->save();
         }
-        return new TriggerResource($trigger);
+        return new WebhookTriggerResource($trigger);
     }
 }
