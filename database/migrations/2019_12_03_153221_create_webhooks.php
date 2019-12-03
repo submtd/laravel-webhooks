@@ -20,7 +20,6 @@ class CreateWebhooks extends Migration
             $table->string('title');
             $table->string('url');
             $table->boolean('active');
-            $table->boolean('verify_ssl')->default(true);
             $table->timestamps();
         });
     }

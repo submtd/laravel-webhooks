@@ -4,6 +4,9 @@ namespace Submtd\LaravelWebhooks\Services;
 
 use Submtd\LaravelWebhooks\Interfaces\TriggerInterface;
 use Submtd\LaravelWebhooks\Interfaces\Webhookable;
+use Submtd\LaravelWebhooks\Jobs\FireWebhook;
+use Submtd\LaravelWebhooks\Models\WebhookJob;
+use Submtd\LaravelWebhooks\Models\WebhookTrigger;
 
 class WebhooksService
 {
@@ -51,10 +54,20 @@ class WebhooksService
      * @param string $id
      * @param Webhookable $payload
      */
-    public function fire(string $id, Webhookable $payload)
+    public function fire(string $id, Webhookable $payload, int $tries = null)
     {
-        $trigger = $this->getTrigger($id);
-        $trigger->setPayload($payload);
-        return $trigger;
+        $triggers = WebhookTrigger::where('user_id', $payload->userId())->where('trigger', $id)->where('active', true)->get();
+        foreach ($triggers as $trigger) {
+            $job = new WebhookJob([
+                'payload_type' => get_class($payload),
+                'payload_id' => $payload->id,
+            ]);
+            $job->user_id = $trigger->user_id;
+            $job->webhook_id = $trigger->webhook_id;
+            $job->webhook_trigger_id = $trigger->id;
+            $job->save();
+
+            dispatch(new FireWebhook($job, $tries ?? config('webhooks.retryAttempts', 5)));
+        }
     }
 }

@@ -64,26 +64,4 @@ abstract class Trigger implements TriggerInterface
     {
         return $this->description ?? $this->id();
     }
-
-    /**
-     * Payload setter
-     * Sets the payload for the webhook.
-     * @param Model $payload
-     * @return TriggerInterface
-     */
-    public function setPayload(Model $payload) : TriggerInterface
-    {
-        $this->payload = $payload;
-        return $this;
-    }
-
-    /**
-     * Payload getter
-     * Gets the payload for the webhook.
-     * @return array
-     */
-    public function getPayload() : array
-    {
-        return $this->payload->toArray();
-    }
 }
