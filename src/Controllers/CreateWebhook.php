@@ -16,7 +16,6 @@ class CreateWebhook extends Controller
             'title' => 'nullable|max:255',
             'url' => 'required|max:255|url',
             'active' => 'nullable|boolean',
-            'verify_ssl' => 'nullable|boolean',
         ]);
         $input = $request->all();
         if (!isset($input['title'])) {
@@ -24,9 +23,6 @@ class CreateWebhook extends Controller
         }
         if (!isset($input['active'])) {
             $input['active'] = true;
-        }
-        if (!isset($input['verify_ssl'])) {
-            $input['verify_ssl'] = true;
         }
         $webhook = new Webhook($input);
         $webhook->user_id = Auth::id();

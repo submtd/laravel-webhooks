@@ -17,7 +17,6 @@ class WebhookResource extends JsonResource
                 'title' => $this->title,
                 'url' => $this->url,
                 'active' => (bool) $this->active,
-                'verify_ssl' => (bool) $this->verify_ssl,
                 'updated_at' => $this->updated_at->toIso8601String(),
                 'created_at' => $this->created_at->toIso8601String(),
             ],

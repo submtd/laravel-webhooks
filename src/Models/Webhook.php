@@ -17,7 +17,6 @@ class Webhook extends Model
         'title',
         'url',
         'active',
-        'verify_ssl',
     ];
 
     /**
