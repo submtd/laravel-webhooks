@@ -12,7 +12,7 @@ class WebhooksServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('webhooks', function () {
+        $this->app->singleton('webhooks', function () {
             return new WebhooksService();
         });
     }

@@ -2,7 +2,9 @@
 
 namespace Submtd\LaravelWebhooks\Interfaces;
 
-interface WebhookInterface
+use Illuminate\Database\Eloquent\Model;
+
+interface TriggerInterface
 {
     /**
      * ID
@@ -25,4 +27,19 @@ interface WebhookInterface
      * @return string
      */
     public function description() : string;
+
+    /**
+     * Payload setter
+     * Sets the payload for the webhook.
+     * @param Model $payload
+     * @return TriggerInterface
+     */
+    public function setPayload(Model $payload) : TriggerInterface;
+
+    /**
+     * Payload getter
+     * Gets the payload for the webhook.
+     * @return array
+     */
+    public function getPayload() : array;
 }

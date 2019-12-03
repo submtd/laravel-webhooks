@@ -2,10 +2,58 @@
 
 namespace Submtd\LaravelWebhooks\Services;
 
+use Submtd\LaravelWebhooks\Interfaces\TriggerInterface;
+
 class WebhooksService
 {
-    public function hello()
+    /**
+     * Available Triggers
+     * @var array $triggers
+     */
+    protected $triggers = [];
+
+    /**
+     * Get triggers
+     * @return array
+     */
+    public function getTriggers()
     {
-        return 'world';
+        return $this->triggers;
+    }
+
+    /**
+     * Get trigger
+     * @param string $id
+     * @return TriggerInterface
+     */
+    public function getTrigger(string $id)
+    {
+        if (!isset($this->triggers[$id])) {
+            throw new \Exception('Unknown trigger');
+        }
+        return $this->triggers[$id];
+    }
+
+    /**
+     * Add trigger
+     * @param TriggerInterface $trigger
+     * @return WebhooksService
+     */
+    public function addTrigger(TriggerInterface $trigger)
+    {
+        $this->triggers[$trigger->id()] = $trigger;
+        return $this;
+    }
+
+    /**
+     * trigger
+     * @param string $id
+     * @param array $payload
+     */
+    public function fire(string $id, array $payload = [])
+    {
+        $trigger = $this->getTrigger($id);
+        $trigger->setPayload($payload);
+        return $trigger;
     }
 }

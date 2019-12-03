@@ -1,9 +1,14 @@
 <?php
 
 Route::group([
-    'prefix' => config('laravel-webhooks.routePrefix', 'api/v1/webhooks'),
-    'middleware' => config('laravel-webhooks.routeMiddleware', ['auth:api']),
+    'prefix' => 'api/v1/webhooks',
+    'middleware' => 'auth:api',
     'namespace' => 'Submtd\LaravelWebhooks\Controllers',
-], function() {
-    // api routes go here
+], function () {
+    Route::get('', 'ListWebhooks');
+    Route::post('', 'CreateWebhook');
+    Route::get('{uuid}', 'GetWebhook');
+    Route::match(['put', 'patch'], '{uuid}', 'UpdateWebhook');
+    Route::delete('{uuid}', 'DeleteWebhook');
+    Route::get('availabletriggers', 'AvailableTriggers');
 });
