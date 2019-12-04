@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Submtd\LaravelHttpRequest\Facades\Http;
 use Submtd\LaravelWebhooks\Models\WebhookJob;
 use Submtd\LaravelWebhooks\Models\WebhookJobResult;
@@ -50,13 +51,23 @@ class FireWebhook implements ShouldQueue
             $webhookJobResult->webhook_trigger_id = $this->webhookJob->webhook_trigger_id;
             $webhookJobResult->webhook_job_id = $this->webhookJob->id;
             $webhookJobResult->save();
+            $trigger = $this->webhookJob->trigger->trigger;
+            $payload = json_encode($this->webhookJob->payload->formatted()->toArray(request()));
+            $hash = md5($payload . $this->webhookJob->webhook->encryption_key);
+            $body = [
+                'trigger' => $trigger,
+                'payload' => $payload,
+                'hash' => $hash,
+            ];
+            Log::debug(json_encode($body));
             $http = Http::init();
             $http->url($this->webhookJob->webhook->url);
             $http->method('POST');
             $http->header('Content-Type', 'application/x-www-form-urlencoded');
             $http->body([
-                'trigger' => $this->webhookJob->trigger->trigger,
-                'payload' => $this->webhookJob->payload->toArray(),
+                'trigger' => $trigger,
+                'payload' => $payload,
+                'hash' => $hash,
             ]);
             $http->request();
             $webhookJobResult->update([

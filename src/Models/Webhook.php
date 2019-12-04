@@ -4,10 +4,11 @@ namespace Submtd\LaravelWebhooks\Models;
 
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Submtd\LaravelEncryptedFields\HasEncryptedFields;
 
 class Webhook extends Model
 {
-    use GeneratesUuid;
+    use GeneratesUuid, HasEncryptedFields;
 
     /**
      * Fillable attributes
@@ -16,7 +17,24 @@ class Webhook extends Model
     protected $fillable = [
         'title',
         'url',
+        'encryption_key',
         'active',
+    ];
+
+    /**
+     * Encrypted fields
+     * @var array $encrypt
+     */
+    public static $encrypt = [
+        'encryption_key',
+    ];
+
+    /**
+     * Hidden fields
+     * @var array $hidden
+     */
+    protected $hidden = [
+        'encryption_key',
     ];
 
     /**

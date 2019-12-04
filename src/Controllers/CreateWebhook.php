@@ -16,6 +16,7 @@ class CreateWebhook extends Controller
             'title' => 'nullable|max:255',
             'url' => 'required|max:255|url',
             'active' => 'nullable|boolean',
+            'encryption_key' => 'nullable|max:255',
         ]);
         $input = $request->all();
         if (!isset($input['title'])) {

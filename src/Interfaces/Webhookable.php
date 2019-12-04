@@ -3,6 +3,7 @@
 namespace Submtd\LaravelWebhooks\Interfaces;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 interface Webhookable
 {
@@ -19,4 +20,10 @@ interface Webhookable
      * should return the user id for the model
      */
     public function userId() : int;
+
+    /**
+     * Formatted
+     * should return an instance of JsonResource
+     */
+    public function formatted() : JsonResource;
 }
