@@ -54,7 +54,10 @@ class FireWebhook implements ShouldQueue
             $http->url($this->webhookJob->webhook->url);
             $http->method('POST');
             $http->header('Content-Type', 'application/x-www-form-urlencoded');
-            $http->body($this->webhookJob->payload->toArray());
+            $http->body([
+                'trigger' => $this->webhookJob->trigger->trigger,
+                'payload' => $this->webhookJob->payload->toArray(),
+            ]);
             $http->request();
             $webhookJobResult->update([
                 'response_code' => $http->getStatusCode(),
