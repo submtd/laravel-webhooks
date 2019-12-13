@@ -13,7 +13,7 @@ class GetWebhook extends Controller
     public function __invoke($webhook_uuid)
     {
         Webhook::addGlobalScope(new RequestScope);
-        if (!$webhook = Webhook::where('user_id', Auth::id)->whereUuid($webhook_uuid)->first()) {
+        if (!$webhook = Webhook::where('user_id', Auth::id())->whereUuid($webhook_uuid)->first()) {
             abort(404);
         }
         return new WebhookResource($webhook);
