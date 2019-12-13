@@ -26,6 +26,7 @@ class WebhookJobResource extends JsonResource
             'related' => [
                 'webhook' => new WebhookResource($this->whenLoaded('webhook')),
                 'trigger' => new WebhookTriggerResource($this->whenLoaded('trigger')),
+                'payload' => $this->whenLoaded('payload', $this->payload->formatted()),
                 'results' => new WebhookJobResultCollection($this->whenLoaded('results')),
             ]
         ];
