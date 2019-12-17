@@ -52,7 +52,7 @@ class FireWebhook implements ShouldQueue
             $webhookJobResult->webhook_job_id = $this->webhookJob->id;
             $webhookJobResult->save();
             $trigger = $this->webhookJob->trigger->trigger;
-            $payload = json_encode($this->webhookJob->payload->formatted()->toArray(request()));
+            $payload = json_encode($this->webhookJob->payload->formatted());
             $hash = hash('sha256', $this->webhookJob->webhook->encryption_key);
             $body = [
                 'trigger' => $trigger,
@@ -85,7 +85,6 @@ class FireWebhook implements ShouldQueue
             } else {
                 $this->fail($e);
             }
-            throw $e;
         }
     }
 }
