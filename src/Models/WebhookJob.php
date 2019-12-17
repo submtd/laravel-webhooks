@@ -41,7 +41,7 @@ class WebhookJob extends Model
      */
     public function trigger()
     {
-        return $this->belongsTo(WebhookTrigger::class);
+        return $this->belongsTo(WebhookTrigger::class, 'webhook_trigger_id', 'id');
     }
 
     /**
