@@ -85,6 +85,7 @@ class FireWebhook implements ShouldQueue
             } else {
                 $this->fail($e);
             }
+            throw $e;
         }
     }
 }
