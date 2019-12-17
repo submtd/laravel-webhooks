@@ -14,4 +14,12 @@ trait IsWebhookable
     {
         return $this->morphMany(WebhookJob::class, 'payload');
     }
+
+    /**
+     * Formatter
+     */
+    public function formatter() : string
+    {
+        return $this->formatter;
+    }
 }
