@@ -56,7 +56,7 @@ class WebhooksService
      */
     public function fire(string $id, Webhookable $payload, int $tries = null)
     {
-        $triggers = WebhookTrigger::with('webhook')->where('webhook.active', true)->where('user_id', $payload->userId())->where('trigger', $id)->get();
+        $triggers = WebhookTrigger::with('webhook')->where('webhooks.active', true)->where('user_id', $payload->userId())->where('trigger', $id)->get();
         foreach ($triggers as $trigger) {
             $job = new WebhookJob([
                 'payload_type' => get_class($payload),
