@@ -30,7 +30,7 @@ class WebhookTrigger extends Model
      */
     public function webhook()
     {
-        return $this->belongsTo(Webhook::class);
+        return $this->belongsTo(Webhook::class, 'webhook_id', 'id');
     }
 
     /**
@@ -38,7 +38,7 @@ class WebhookTrigger extends Model
      */
     public function jobs()
     {
-        return $this->hasMany(WebhookJob::class);
+        return $this->hasMany(WebhookJob::class, 'webhook_trigger_id', 'id');
     }
 
     /**
@@ -46,6 +46,6 @@ class WebhookTrigger extends Model
      */
     public function results()
     {
-        return $this->hasMany(WebhookJobResult::class);
+        return $this->hasMany(WebhookJobResult::class, 'webhook_trigger_id', 'id');
     }
 }

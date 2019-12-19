@@ -50,7 +50,7 @@ class Webhook extends Model
      */
     public function triggers()
     {
-        return $this->hasMany(WebhookTrigger::class);
+        return $this->hasMany(WebhookTrigger::class, 'webhook_id', 'id');
     }
 
     /**
@@ -58,7 +58,7 @@ class Webhook extends Model
      */
     public function jobs()
     {
-        return $this->hasMany(WebhookJob::class);
+        return $this->hasMany(WebhookJob::class, 'webhook_id', 'id');
     }
 
     /**
@@ -66,6 +66,6 @@ class Webhook extends Model
      */
     public function results()
     {
-        return $this->hasMany(WebhookJobResult::class);
+        return $this->hasMany(WebhookJobResult::class, 'webhook_id', 'id');
     }
 }

@@ -33,7 +33,7 @@ class WebhookJob extends Model
      */
     public function webhook()
     {
-        return $this->belongsTo(Webhook::class);
+        return $this->belongsTo(Webhook::class, 'webhook_id', 'id');
     }
 
     /**
@@ -57,6 +57,6 @@ class WebhookJob extends Model
      */
     public function results()
     {
-        return $this->hasMany(WebhookJobResult::class);
+        return $this->hasMany(WebhookJobResult::class, 'webhook_job_id', 'id');
     }
 }
