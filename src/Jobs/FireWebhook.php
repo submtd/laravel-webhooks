@@ -75,6 +75,10 @@ class FireWebhook implements ShouldQueue
                 'response_body' => $http->getResponse(),
                 'success' => true,
             ]);
+            $this->webhookJob->update([
+                'complete' => true,
+                'success' => true,
+            ]);
             return true;
         } catch (\Exception $e) {
             $webhookJobResult->update([
@@ -84,6 +88,9 @@ class FireWebhook implements ShouldQueue
             if ($this->attempts() < $this->tries) {
                 $this->release($this->attempts() * 60);
             } else {
+                $this->webhookJob->update([
+                    'complete' => true,
+                ]);
                 $this->fail($e);
             }
         }
