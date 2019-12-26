@@ -59,7 +59,7 @@ class FireWebhook implements ShouldQueue
                 'payload' => $payload,
                 'hash' => $hash,
             ];
-            Log::debug(json_encode($body));
+            Log::debug('WEBHOOK '.json_encode($body));
             $http = Http::init();
             $http->url($this->webhookJob->webhook->url);
             $http->method('POST');
