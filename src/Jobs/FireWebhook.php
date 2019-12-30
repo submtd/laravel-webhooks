@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Submtd\LaravelHttpRequest\Facades\Http;
 use Submtd\LaravelWebhooks\Models\WebhookJob;
 use Submtd\LaravelWebhooks\Models\WebhookJobResult;
@@ -59,7 +58,6 @@ class FireWebhook implements ShouldQueue
                 'payload' => $payload,
                 'hash' => $hash,
             ];
-            Log::debug('WEBHOOK '.json_encode($body));
             $http = Http::init();
             $http->url($this->webhookJob->webhook->url);
             $http->method('POST');
