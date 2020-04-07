@@ -10,7 +10,7 @@
     "require": {
         "dyrynda/laravel-model-uuid": "^5.0",
         "spatie/laravel-json-api-paginate": "^1.5",
-        "submtd/laravel-http-request": "^1.0"
+        "guzzlehttp/guzzle": "^6.5"
     },
     "autoload": {
         "psr-4": {

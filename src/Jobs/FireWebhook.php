@@ -2,11 +2,11 @@
 
 namespace Submtd\LaravelWebhooks\Jobs;
 
+use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Submtd\LaravelHttpRequest\Facades\Http;
 use Submtd\LaravelWebhooks\Models\WebhookJob;
 use Submtd\LaravelWebhooks\Models\WebhookJobResult;
 
@@ -53,24 +53,21 @@ class FireWebhook implements ShouldQueue
             $trigger = $this->webhookJob->trigger->trigger;
             $payload = json_encode($this->webhookJob->payload->toArray());
             $hash = hash('sha256', $payload . $this->webhookJob->webhook->encryption_key);
-            $body = [
-                'trigger' => $trigger,
-                'payload' => $payload,
-                'hash' => $hash,
+            $options = [
+                'form_params' => [
+                    'trigger' => $trigger,
+                    'payload' => $payload,
+                    'hash' => $hash,
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                ],
             ];
-            $http = Http::init();
-            $http->url($this->webhookJob->webhook->url);
-            $http->method('POST');
-            $http->header('Content-Type', 'application/x-www-form-urlencoded');
-            $http->body([
-                'trigger' => $trigger,
-                'payload' => $payload,
-                'hash' => $hash,
-            ]);
-            $http->request();
+            $client = new Client();
+            $result = $client->request('POST', $this->webhookJob->webhook->url, $options);
             $webhookJobResult->update([
-                'response_code' => $http->getStatusCode(),
-                'response_body' => $http->getResponse(),
+                'response_code' => $result->getStatusCode(),
+                'response_body' => $result->getBody(),
                 'success' => true,
             ]);
             $this->webhookJob->update([
