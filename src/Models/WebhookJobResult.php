@@ -2,13 +2,11 @@
 
 namespace Submtd\LaravelWebhooks\Models;
 
-use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class WebhookJobResult extends Model
 {
-    use GeneratesUuid;
-
     /**
      * Fillable attributes
      * @var array $fillable
@@ -27,6 +25,7 @@ class WebhookJobResult extends Model
         parent::boot();
         // make body fit in 255 characters
         static::creating(function ($model) {
+            $model->uuid = Str::uuid()->toString();
             $model->response_body = substr($model->response_body, 0, 255);
         });
         static::updating(function ($model) {

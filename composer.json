@@ -8,7 +8,6 @@
         }
     ],
     "require": {
-        "dyrynda/laravel-model-uuid": "^5.0",
         "spatie/laravel-json-api-paginate": "^1.5",
         "guzzlehttp/guzzle": "^6.5"
     },

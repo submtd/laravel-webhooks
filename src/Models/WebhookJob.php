@@ -2,13 +2,11 @@
 
 namespace Submtd\LaravelWebhooks\Models;
 
-use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class WebhookJob extends Model
 {
-    use GeneratesUuid;
-
     /**
      * Fillable attributes
      * @var array $fillable
@@ -20,6 +18,19 @@ class WebhookJob extends Model
         'success',
     ];
 
+    /**
+     * Boot method
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (!isset($model->uuid)) {
+                $model->uuid = Str::uuid()->toString();
+            }
+        });
+    }
+    
     /**
      * User relationship
      */

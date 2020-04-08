@@ -2,14 +2,11 @@
 
 namespace Submtd\LaravelWebhooks\Models;
 
-use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
-use Submtd\LaravelEncryptedFields\HasEncryptedFields;
+use Illuminate\Support\Str;
 
 class Webhook extends Model
 {
-    use GeneratesUuid, HasEncryptedFields;
-
     /**
      * Fillable attributes
      * @var array $fillable
@@ -36,6 +33,39 @@ class Webhook extends Model
     protected $hidden = [
         'encryption_key',
     ];
+    
+    /**
+     * Boot method
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (!isset($model->uuid)) {
+                $model->uuid = Str::uuid()->toString();
+            }
+        });
+    }
+
+    /**
+     * get encryption key
+     */
+    public function getEncryptionKeyAttribute($value)
+    {
+        if (!empty($value)) {
+            return decrypt($value);
+        }
+    }
+
+    /**
+     * set encryption key
+     */
+    public function setEncryptionKeyAttribute($value)
+    {
+        if (!empty($value)) {
+            $this->attributes['encryption_key'] = encrypt($value);
+        }
+    }
 
     /**
      * User relationship
