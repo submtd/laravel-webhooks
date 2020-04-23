@@ -8,26 +8,26 @@ use Submtd\LaravelWebhooks\Interfaces\TriggerInterface;
 abstract class Trigger implements TriggerInterface
 {
     /**
-     * ID
-     * @var string $id
+     * ID.
+     * @var string
      */
     protected $id;
 
     /**
-     * Name
-     * @var string $name
+     * Name.
+     * @var string
      */
     protected $name;
 
     /**
-     * Description
-     * @var string $description
+     * Description.
+     * @var string
      */
     protected $description;
 
     /**
-     * Payload
-     * @var Model $payload
+     * Payload.
+     * @var Model
      */
     protected $payload;
 
@@ -39,9 +39,10 @@ abstract class Trigger implements TriggerInterface
      */
     public function id() : string
     {
-        if (!$this->id) {
+        if (! $this->id) {
             throw new \Exception('Property id is required.');
         }
+
         return $this->id;
     }
 

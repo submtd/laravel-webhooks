@@ -8,8 +8,8 @@
         }
     ],
     "require": {
-        "spatie/laravel-json-api-paginate": "^1.5",
-        "guzzlehttp/guzzle": "^6.5"
+        "guzzlehttp/guzzle": "^6.5",
+        "submtd/laravel-request-scope": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -25,7 +25,7 @@
                 "Submtd\\LaravelWebhooks\\Providers\\WebhooksServiceProvider"
             ],
             "aliases": {
-                "Webhooks": "Submtd\\LaravelWebhooks\\Facades\\WebhooksFacade"
+                "Webhooks": "Submtd\\LaravelWebhooks\\Facades\\Webhooks"
             }
         }
     }

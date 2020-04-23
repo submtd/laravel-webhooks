@@ -11,13 +11,13 @@ use Submtd\LaravelWebhooks\Models\WebhookTrigger;
 class WebhooksService
 {
     /**
-     * Available Triggers
-     * @var array $triggers
+     * Available Triggers.
+     * @var array
      */
     protected $triggers = [];
 
     /**
-     * Get triggers
+     * Get triggers.
      * @return array
      */
     public function getTriggers()
@@ -26,33 +26,36 @@ class WebhooksService
     }
 
     /**
-     * Get trigger
+     * Get trigger.
      * @param string $id
      * @return TriggerInterface
      */
     public function getTrigger(string $id)
     {
-        if (!isset($this->triggers[$id])) {
+        if (! isset($this->triggers[$id])) {
             throw new \Exception('Unknown trigger');
         }
+
         return $this->triggers[$id];
     }
 
     /**
-     * Add trigger
+     * Add trigger.
      * @param TriggerInterface $trigger
      * @return WebhooksService
      */
     public function addTrigger(TriggerInterface $trigger)
     {
         $this->triggers[$trigger->id()] = $trigger;
+
         return $this;
     }
 
     /**
-     * trigger
+     * trigger.
      * @param string $id
      * @param Webhookable $payload
+     * @return void
      */
     public function fire(string $id, Webhookable $payload, int $tries = null)
     {
