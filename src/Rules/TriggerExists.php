@@ -3,6 +3,7 @@
 namespace Submtd\LaravelWebhooks\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Submtd\LaravelWebhooks\Facades\Webhooks;
 
 class TriggerExists implements Rule
 {
@@ -15,7 +16,7 @@ class TriggerExists implements Rule
      */
     public function passes($attribute, $value)
     {
-        return array_key_exists($value, webhooks()->getTriggers());
+        return array_key_exists($value, Webhooks::getTriggers());
     }
 
     /**

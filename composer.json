@@ -14,10 +14,7 @@
     "autoload": {
         "psr-4": {
             "Submtd\\LaravelWebhooks\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "extra": {
         "laravel": {

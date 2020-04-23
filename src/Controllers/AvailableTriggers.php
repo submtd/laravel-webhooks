@@ -3,12 +3,13 @@
 namespace Submtd\LaravelWebhooks\Controllers;
 
 use Illuminate\Routing\Controller;
+use Submtd\LaravelWebhooks\Facades\Webhooks;
 
 class AvailableTriggers extends Controller
 {
     public function __invoke()
     {
-        $triggers = webhooks()->getTriggers();
+        $triggers = Webhooks::getTriggers();
         $return = [];
         foreach ($triggers as $trigger) {
             $return[] = [
@@ -20,6 +21,7 @@ class AvailableTriggers extends Controller
                 ],
             ];
         }
+
         return response()->json(['data' => $return]);
     }
 }
