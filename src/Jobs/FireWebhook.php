@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Submtd\LaravelWebhooks\Models\WebhookJob;
 use Submtd\LaravelWebhooks\Models\WebhookJobResult;
+use Throwable;
 
 class FireWebhook implements ShouldQueue
 {
@@ -64,12 +65,11 @@ class FireWebhook implements ShouldQueue
                     'Content-Type' => 'application/x-www-form-urlencoded',
                 ],
             ];
-            Log::debug(json_encode($options));
             $client = new Client();
             $result = $client->request('POST', $this->webhookJob->webhook->url, $options);
             $webhookJobResult->update([
                 'response_code' => $result->getStatusCode(),
-                'response_body' => $result->getBody(),
+                'response_body' => $result->getBody()->getContents(),
                 'success' => true,
             ]);
             $this->webhookJob->update([
@@ -92,5 +92,13 @@ class FireWebhook implements ShouldQueue
                 $this->fail($e);
             }
         }
+    }
+
+    /**
+     * Handle failed jobs.
+     */
+    public function failed(Throwable $e)
+    {
+        Log::error('FireWebhook job failed | code: '.$e->getCode().' message: '.$e->getMessage().' job:'.json_encode($this->webhookJob));
     }
 }
