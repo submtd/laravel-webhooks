@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Submtd\LaravelWebhooks\Models\WebhookJob;
 use Submtd\LaravelWebhooks\Models\WebhookJobResult;
 
@@ -15,19 +16,19 @@ class FireWebhook implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Webhook job
-     * @var WebhookJob $webhookJob
+     * Webhook job.
+     * @var WebhookJob
      */
     protected $webhookJob;
 
     /**
-     * Tries
-     * @var int $tries
+     * Tries.
+     * @var int
      */
     protected $tries;
 
     /**
-     * Class constructor
+     * Class constructor.
      * @param WebhookJob $webhookJob
      * @param int $tries
      */
@@ -38,7 +39,7 @@ class FireWebhook implements ShouldQueue
     }
 
     /**
-     * Handle method
+     * Handle method.
      */
     public function handle()
     {
@@ -52,7 +53,7 @@ class FireWebhook implements ShouldQueue
             $webhookJobResult->save();
             $trigger = $this->webhookJob->trigger->trigger;
             $payload = json_encode($this->webhookJob->payload->toArray());
-            $hash = hash('sha256', $payload . $this->webhookJob->webhook->encryption_key);
+            $hash = hash('sha256', $payload.$this->webhookJob->webhook->encryption_key);
             $options = [
                 'form_params' => [
                     'trigger' => $trigger,
@@ -63,6 +64,7 @@ class FireWebhook implements ShouldQueue
                     'Content-Type' => 'application/x-www-form-urlencoded',
                 ],
             ];
+            Log::debug(json_encode($options));
             $client = new Client();
             $result = $client->request('POST', $this->webhookJob->webhook->url, $options);
             $webhookJobResult->update([
@@ -74,6 +76,7 @@ class FireWebhook implements ShouldQueue
                 'complete' => true,
                 'success' => true,
             ]);
+
             return true;
         } catch (\Exception $e) {
             $webhookJobResult->update([
